@@ -68,11 +68,15 @@
   
   .custom-left-side:hover,
   .custom-right-side:hover {
-    background-color: rgba(0, 0, 0, 0.123);
+    background-color: rgba(0, 0, 0, 0.062);
   }
 
   .Scan.fullscreen .Scan-image-overlay{
-    height: 258vh;
+    height: 265vh;
+  }
+
+  .Scan.fullscreen .Scan-navbar{
+    justify-content: center;
   }
   
   .custom-left-side {
@@ -129,7 +133,7 @@
   }
 
 
-  @media (orientation: landscape) {
+  @media only screen and (max-width: 768px) and (orientation: landscape) {
     .Scan.fullscreen .Scan-image-overlay {
       height: 320vh;
     }
