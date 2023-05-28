@@ -46,7 +46,7 @@ function Scan() {
 
   const handleSelectChange = (event) => {
     const selectedScan = event.target.value;
-    navigate(`/scans/${selectedScan}`);
+    navigate(`/Kpiece/scans/${selectedScan}`);
   };
 
 

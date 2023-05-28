@@ -8,9 +8,9 @@ function Card({ scan, title, pages, isNew }) {
       {isNew && <span className="new-badge">Nouveau</span>}
       <h3>{title}</h3>
       <p>{scan}</p>
-      <Link to={`/scans/${scan}`}>
-        <img src={pages + "01.png"} alt={title} />
-      </Link>
+      <Link to={`/Kpiece/scans/${scan}`}>
+  <img src={pages + "01.png"} alt={title} />
+</Link>
     </div>
   );
 }
