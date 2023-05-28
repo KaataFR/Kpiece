@@ -11,7 +11,7 @@ function RoutesPath() {
     <HashRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<Accueil />} />
+          <Route path="/acceuil" element={<Accueil />} />
           <Route path="/scans/:scan" element={<Scan />} />
           <Route path="/recherche/:searchTerm" element={<Recherche />} />
           <Route path="*" element={<NotFound />} />

@@ -25,5 +25,15 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <script>
+    if (
+      window.location.href.startsWith("https://kaatafr.github.io/Kpiece/") ||
+      window.location.href.startsWith("https://kaatafr.github.io/accueil") ||
+      window.location.href === "https://kaatafr.github.io/"
+    ) {
+      window.location.href = "https://kaatafr.github.io/Kpiece";
+    }
+  </script>
+  
 </body>
 </html>
