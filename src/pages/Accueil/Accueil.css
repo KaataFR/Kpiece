@@ -1,0 +1,73 @@
+.Accueil h2 {
+    position: relative;
+    font-size: 32px;
+  }
+  
+  .Accueil h2:before {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    animation: lineAnimation 2s forwards;
+  }
+  
+  @keyframes lineAnimation {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+
+.Accueil ul{
+    display: flex;
+flex-direction: row;
+justify-content: space-between;
+flex-wrap: wrap;
+}
+
+.Accueil li{
+    height: 520px;
+}
+
+
+
+
+@media screen and (max-width: 1244px) {
+
+
+.Accueil{
+  width: 100%;
+}
+
+.Accueil ul{
+  width: 100%;
+  padding: 0;
+  margin: auto;
+
+}
+
+.Accueil li{
+  height: 450px;
+  width: 251px;
+  margin: auto;
+}
+
+
+div.Card.new,div.Card{
+width: auto;
+}
+
+
+
+
+
+
+
+
+}
