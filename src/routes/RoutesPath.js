@@ -8,12 +8,12 @@ import NotFound from "../pages/NotFound/NotFound";
 
 function RoutesPath() {
   return (
-    <BrowserRouter>
+<BrowserRouter basename="/Kpiece">
       <Layout>
         <Routes>
-          <Route path="/Kpiece/" element={<Accueil />} />
-          <Route path="Kpiece/scans/:scan" element={<Scan />} />
-          <Route path="Kpiece/recherche/:searchTerm" element={<Recherche />} />
+          <Route path="/" element={<Accueil />} />
+          <Route path="/scans/:scan" element={<Scan />} />
+          <Route path="/recherche/:searchTerm" element={<Recherche />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

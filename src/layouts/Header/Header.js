@@ -16,14 +16,14 @@ function Header() {
   const handleSearchSubmit = (event) => {
     event.preventDefault();
     if (searchValue.trim() !== "") {
-      navigate(`Kpiece/recherche/${searchValue}`);
+      navigate(`/recherche/${searchValue}`);
     }
   };
   
 
   return (
     <header>
-      <Link to="./Kpiece/" className="logo-link">
+      <Link to="./" className="logo-link">
         <img src={logo} alt="logo kpiece" />
       </Link>
 
