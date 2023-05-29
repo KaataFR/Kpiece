@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Scan.css";
 import scans from "./../../assets/data/scans.json";
@@ -15,9 +15,6 @@ function Scan() {
   const [fullscreen, setFullscreen] = useState(false);
 
   const [scale, setScale] = useState(1);
-
-
-  
 
   useEffect(() => {
     if (scan) {
@@ -39,17 +36,10 @@ function Scan() {
     }
   }, [scan]);
 
-
-
-
-
-
   const handleSelectChange = (event) => {
     const selectedScan = event.target.value;
     navigate(`/scans/${selectedScan}`);
   };
-
-
 
   const handleZoomIn = () => {
     setScale((prevScale) => Math.min(prevScale + 0.1, 1));
@@ -69,8 +59,6 @@ function Scan() {
       window.scrollTo(0, 0); // Scroll to the top of the page
     }
   };
-  
-  
 
   const handleFullScreen = () => {
     if (!fullscreen) {
@@ -125,8 +113,6 @@ function Scan() {
 
   return (
     <div className={`Scan ${fullscreen ? "fullscreen" : ""}`}>
-
-
       <select className="Scan-select" onChange={handleSelectChange}>
         {scans.map((s) => (
           <option key={s.scan} value={s.scan}>
@@ -135,7 +121,7 @@ function Scan() {
         ))}
       </select>
 
-<p>{`${imageIndex}/${totalPages}`}</p>
+      <p>{`${imageIndex}/${totalPages}`}</p>
 
       <div className="Scan-content" style={{ transform: `scale(${scale})` }}>
         <div className="Scan-navbar">
@@ -157,8 +143,8 @@ function Scan() {
         </div>
 
         {scan && imageUrl && (
-        <div className="Scan-images">
-          <div className="Scan-image-container" ref={imageContainerRef}>
+          <div className="Scan-images">
+            <div className="Scan-image-container" ref={imageContainerRef}>
               <div
                 className={`Scan-image-overlay custom-left-side ${
                   imageIndex === 1 ? "inactive" : ""

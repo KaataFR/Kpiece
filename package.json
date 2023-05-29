@@ -1,12 +1,13 @@
 {
   "name": "scanonepiece",
-  "homepage": "https://kaatafr.github.io/Kpiece/",
+  "homepage": "https://s3.amazonaws.com/kpiece-scan",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "aws": "^0.0.3-2",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -18,7 +19,7 @@
     "start": "react-scripts start",
     "predeploy": "npm run build",
     "build": "react-scripts build",
-    "deploy": "gh-pages -d build",
+    "deploy": "aws s3 sync build/ s3://kpiece-scan",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
