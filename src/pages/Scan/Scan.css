@@ -1,142 +1,166 @@
 .Scan {
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 18px;
-    width: 100%;
-    overflow: auto;
-    height: 100%;
-  }
-  
-  .Scan select {
-    width: 400px;
-    padding: 10px;
-    text-overflow: ellipsis;
-    background-color: #333333;
-    color: white;
-    font-weight: bold;
-    margin: 50px 0px 50px;
-  }
-  
-  .Scan-images {
-    margin: auto;
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  
-  .Scan img {
-    width: 100%;
-    height: auto;
-  }
-  
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 18px;
+  width: 100%;
+  overflow: auto;
+  height: 100%;
+}
+
+.Scan select {
+  width: 400px;
+  padding: 10px;
+  text-overflow: ellipsis;
+  background-color: #333333;
+  color: white;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.Scan p {
+  margin: 10px;
+}
+
+.Scan-images {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.Scan img {
+  width: 100%;
+  height: auto;
+}
+
+.Scan-navbar {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #363636;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 50px;
+  overflow: visible;
+}
+
+.Scan-navbar button {
+  border: none;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 4px;
+  font-size: 20px;
+  padding: 10px;
+  color: #808080;
+  cursor: pointer;
+  background-color: #363636;
+}
+
+.Scan-navbar button:active {
+  color: white;
+}
+
+.custom-left-side,
+.custom-right-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 49.9%;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  height: auto;
+}
+
+.custom-left-side:hover,
+.custom-right-side:hover {
+  background-color: rgba(0, 0, 0, 0.062);
+}
+
+.Scan.fullscreen .Scan-image-overlay {
+  height: 265vh;
+}
+
+.custom-left-side {
+  left: 0;
+}
+
+.custom-right-side {
+  right: 0;
+}
+
+.custom-left-side.active,
+.custom-right-side.active {
+  pointer-events: auto;
+}
+
+.Scan.fullscreen .Scan-select {
+  display: none;
+}
+
+.Scan.fullscreen .Scan-content {
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+}
+
+.Scan-volume {
+  margin-left: 10px;
+  padding: 5px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+}
+
+.Scan-volume-slider {
+  margin-left: 10px;
+  width: 100px;
+}
+
+@media screen and (max-width: 1244px) {
   .Scan-navbar {
-    margin: auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: #363636;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    height: 50px;
+    justify-content: start;
   }
-  
+
   .Scan-navbar button {
-    border: none;
-    margin-right: 30px;
-    border-radius: 4px;
-    font-size: 20px;
-    padding: 10px;
-    color: #808080;
-    cursor: pointer;
-    background-color: #363636;
-  }
-  
-  .custom-left-side,
-  .custom-right-side {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 49.9%;
-    cursor: pointer;
-    transition: all 200ms ease-in-out;
-    height: auto;
-  }
-  
-  .custom-left-side:hover,
-  .custom-right-side:hover {
-    background-color: rgba(0, 0, 0, 0.062);
+    padding: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 18px;
+    padding: 5px;
   }
 
-  .Scan.fullscreen .Scan-image-overlay{
-    height: 265vh;
+  .Scan-fullscreen {
+    margin-left: 50%;
+    color: red;
   }
 
-  .Scan.fullscreen .Scan-navbar{
-    justify-content: center;
+  .Scan select {
+    width: 200px;
   }
-  
-  .custom-left-side {
-    left: 0;
-  }
-  
-  
-  .custom-right-side {
-    right: 0;
-  }
-  
-  
-  .custom-left-side.active,
-  .custom-right-side.active {
-    pointer-events: auto;
-    /* Activer les événements de clic uniquement si la condition est remplie */
-  }
-  
- 
 
-  .Scan.fullscreen .Scan-select {
+  .Scan.fullscreen .Scan-image-overlay {
+    height: 70vh;
+  }
+
+  .Scan-music,
+  .Scan-volume,
+  .Scan input {
     display: none;
   }
+}
 
-  .Scan.fullscreen  .Scan-content{
-    position: absolute;
-    top: 0;
-    z-index: 999;
-    width: 100%;
-    height: 100%;
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+  .Scan.fullscreen .Scan-image-overlay {
+    height: 320vh;
   }
-
-
-  
-
-
-  
-  @media screen and (max-width: 1244px) {
-
-
-    .Scan-navbar button {
-      padding: 3px;
-    }
-
-      .Scan select {
-        width: 200px;
-      }
-
-      .Scan.fullscreen .Scan-image-overlay{
-        height: 70vh;
-      }
-
-    
-  }
-
-
-  @media only screen and (max-width: 768px) and (orientation: landscape) {
-    .Scan.fullscreen .Scan-image-overlay {
-      height: 320vh;
-    }
-  }
-  
-  
+}

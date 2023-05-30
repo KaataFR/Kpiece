@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Scan.css";
 import scans from "./../../assets/data/scans.json";
+import ost from "./../../assets/mp3/ost.mp3";
 
 function Scan() {
   const navigate = useNavigate();
@@ -13,8 +14,67 @@ function Scan() {
   const [imageIndex, setImageIndex] = useState(1);
   const [imageUrl, setImageUrl] = useState("");
   const [fullscreen, setFullscreen] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.5); // Valeur initiale du volume (0.5 = 50%)
+  
 
-  const [scale, setScale] = useState(1);
+  const audioRef = useRef(null);
+
+
+
+    useEffect(() => {
+      const preloadImage = (url) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      };
+    
+      const preloadScanImages = async () => {
+        const scanImages = scans
+          .filter((s) => s.scan === scanParam) // Filtrer les scans pour obtenir celui en cours
+          .flatMap((scan) => {
+            const totalPages = scan.maxpages;
+            return Array.from(
+              { length: totalPages },
+              (_, index) => `${scan.pages}${String(index + 1).padStart(2, "0")}.png`
+            );
+          });
+    
+        const preloadedImages = [];
+    
+        for (const imageUrl of scanImages) {
+          try {
+            await preloadImage(imageUrl);
+            preloadedImages.push(imageUrl);
+          } catch (error) {
+            console.error(`Failed to preload image: ${imageUrl}`);
+          }
+        }
+    
+        console.log("Scan images preloaded:", preloadedImages);
+      };
+    
+      preloadScanImages();
+    }, [scanParam]);
+    
+
+  const handleMusicButtonClick = () => {
+    if (isMusicPlaying) {
+      audioRef.current.pause(); // Mettre la musique en pause
+    } else {
+      audioRef.current.play(); // Lire la musique
+    }
+    setIsMusicPlaying((prevIsMusicPlaying) => !prevIsMusicPlaying); // Inverser l'état de la musique
+  };
+
+  const handleVolumeChange = (event) => {
+    const newVolume = parseFloat(event.target.value);
+    setVolume(newVolume);
+    audioRef.current.volume = newVolume; // Mettre à jour le volume de l'audio
+  };
 
   useEffect(() => {
     if (scan) {
@@ -41,14 +101,6 @@ function Scan() {
     navigate(`/scans/${selectedScan}`);
   };
 
-  const handleZoomIn = () => {
-    setScale((prevScale) => Math.min(prevScale + 0.1, 1));
-  };
-
-  const handleZoomOut = () => {
-    setScale((prevScale) => Math.max(prevScale - 0.1, 0.8));
-  };
-
   const handlePreviousPage = () => {
     setImageIndex((prevIndex) => Math.max(prevIndex - 1, 1));
   };
@@ -57,6 +109,42 @@ function Scan() {
     if (imageIndex < totalPages) {
       setImageIndex((prevIndex) => prevIndex + 1);
       window.scrollTo(0, 0); // Scroll to the top of the page
+    }
+  };
+
+  useEffect(() => {
+    const handleAudioEnded = () => {
+      setIsMusicPlaying(false);
+    };
+
+    if (audioRef.current) {
+      audioRef.current.addEventListener("ended", handleAudioEnded);
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("ended", handleAudioEnded);
+      }
+    };
+  }, []);
+
+  const imageIndexRef = useRef(imageIndex);
+
+  useEffect(() => {
+    imageIndexRef.current = imageIndex;
+  }, [imageIndex]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowLeft") {
+      // Left arrow key
+      handlePreviousPage();
+    } else if (event.key === "ArrowRight") {
+      // Right arrow key
+      if (imageIndexRef.current < totalPages) {
+        handleNextPage();
+      } else {
+        event.preventDefault(); // Bloquer la touche lorsque imageIndex atteint la valeur de totalPages
+      }
     }
   };
 
@@ -93,6 +181,7 @@ function Scan() {
     document.addEventListener("mozfullscreenchange", handleFullscreenChange);
     document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
     document.addEventListener("msfullscreenchange", handleFullscreenChange);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
@@ -108,6 +197,7 @@ function Scan() {
         "msfullscreenchange",
         handleFullscreenChange
       );
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -123,23 +213,39 @@ function Scan() {
 
       <p>{`${imageIndex}/${totalPages}`}</p>
 
-      <div className="Scan-content" style={{ transform: `scale(${scale})` }}>
+      <div className="Scan-content">
         <div className="Scan-navbar">
-          <button onClick={handleZoomIn} className="zoom-button">
-            <i className="fa-solid fa-magnifying-glass-plus"></i>
-          </button>
-          <button onClick={handleZoomOut} className="zoom-button">
-            <i className="fa-solid fa-magnifying-glass-minus"></i>
-          </button>
           <button onClick={handlePreviousPage}>
             <i className="fa-solid fa-circle-arrow-left"></i>
           </button>
           <button onClick={handleNextPage}>
             <i className="fa-solid fa-circle-arrow-right"></i>
           </button>
-          <button onClick={handleFullScreen}>
+          <button className="Scan-full" onClick={handleFullScreen}>
             <i className="fa-solid fa-expand"></i>
+          </button>         
+          <button className="Scan-music" onClick={handleMusicButtonClick}>
+            <i className="fa-solid fa-music"></i>
           </button>
+          <button className="Scan-volume" onClick={handleVolumeChange}>
+            
+            {volume === 0 ? (
+              <i className="fa-solid fa-volume-mute"></i>
+            ) : (
+              <i className="fa-solid fa-volume"></i>
+            )}
+          </button>
+          <input
+            className="Scan-volume-slider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolumeChange}
+          />
+
+          <audio ref={audioRef} src={ost} loop></audio>
         </div>
 
         {scan && imageUrl && (

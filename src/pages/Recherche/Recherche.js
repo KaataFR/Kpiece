@@ -7,9 +7,13 @@ import './Recherche.css';
 function Recherche() {
   const { searchTerm } = useParams();
 
-  // Effectuer la recherche en filtrant les scans correspondant au terme de recherche
+  // Convertir le terme de recherche en minuscules (ou en majuscules) pour une recherche insensible à la casse
+  const searchTermLowerCase = searchTerm.toLowerCase();
+
+  // Effectuer la recherche en filtrant les scans correspondant au terme de recherche et à l'arc (insensible à la casse)
   const searchResults = scansData.filter((scan) =>
-    scan.scan.includes(searchTerm)
+    scan.scan.toLowerCase().includes(searchTermLowerCase) ||
+    scan.arc.toLowerCase().includes(searchTermLowerCase)
   );
 
   return (
@@ -30,5 +34,6 @@ function Recherche() {
     </div>
   );
 }
+
 
 export default Recherche;

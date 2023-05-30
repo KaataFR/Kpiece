@@ -1,6 +1,6 @@
 {
   "name": "scanonepiece",
-  "homepage": "https://s3.amazonaws.com/kpiece-scan",
+  "homepage": "http://www.kpiece.site.s3-website.eu-west-3.amazonaws.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,8 +9,11 @@
     "@testing-library/user-event": "^13.5.0",
     "aws": "^0.0.3-2",
     "axios": "^1.4.0",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-pinch-zoom": "^0.1.4",
     "react-router-dom": "^6.11.2",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
@@ -19,7 +22,7 @@
     "start": "react-scripts start",
     "predeploy": "npm run build",
     "build": "react-scripts build",
-    "deploy": "aws s3 sync build/ s3://kpiece-scan",
+    "deploy": "aws s3 sync build/ s3://www.kpiece.site",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
