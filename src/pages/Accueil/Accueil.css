@@ -1,3 +1,8 @@
+.Accueil{
+  width: 100%;
+  margin: auto;
+}
+
 .Accueil h2 {
     position: relative;
     font-size: 32px;
@@ -14,6 +19,11 @@
     animation: lineAnimation 2s forwards;
   }
   
+.ScrollToTopButton{
+  display: none;
+}
+
+
   @keyframes lineAnimation {
     0% {
       width: 0;
@@ -27,7 +37,7 @@
 .Accueil ul{
     display: flex;
 flex-direction: row;
-justify-content: space-between;
+justify-content: start;
 flex-wrap: wrap;
 }
 
@@ -36,13 +46,38 @@ flex-wrap: wrap;
 }
 
 
+.Pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.Pagination button {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  padding: 8px 12px;
+  margin: 0 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.Pagination button.active {
+  background-color: white;
+  color: black;
+}
+
+
+
 
 
 @media screen and (max-width: 1244px) {
 
 
+
 .Accueil{
   width: 100%;
+  margin: 0;
 }
 
 .Accueil ul{

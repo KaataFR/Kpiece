@@ -166,5 +166,26 @@
       "pages": "https://kpiece.s3.eu-west-3.amazonaws.com/1061/",
       "maxpages": 16,
       "arc": "Egg Head"
+    },
+    {
+      "scan": "1060",
+      "title": "Le Rêve de Luffy",
+      "pages": "https://kpiece.s3.eu-west-3.amazonaws.com/1060/",
+      "maxpages": 21,
+      "arc": "Wano Kuni"
+    },
+    {
+      "scan": "1059",
+      "title": "L'Affaire du Capitaine Koby'",
+      "pages": "https://kpiece.s3.eu-west-3.amazonaws.com/1059/",
+      "maxpages": 22,
+      "arc": "Wano Kuni"
+    },
+    {
+      "scan": "1058",
+      "title": "Un Nouvel Empereur",
+      "pages": "https://kpiece.s3.eu-west-3.amazonaws.com/1058/",
+      "maxpages": 21,
+      "arc": "Wano Kuni"
     }
   ]

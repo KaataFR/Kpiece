@@ -1,29 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Accueil.css";
 import Card from "../../components/card/Card";
 import scans from "../../assets/data/scans.json";
 
 function Accueil() {
-  // Trouver le scan avec le numéro de chapitre le plus élevé
-  const latestChapter = scans.reduce((prevScan, currentScan) =>
-    parseInt(prevScan.scan, 10) > parseInt(currentScan.scan, 10) ? prevScan : currentScan
-  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const scansPerPage = 8; // Nombre de scans à afficher par page
+
+  // Calcul du nombre total de pages
+  const totalPages = Math.ceil(scans.length / scansPerPage);
+
+  // Index de début et de fin des scans à afficher sur la page actuelle
+  const startIndex = (currentPage - 1) * scansPerPage;
+  const endIndex = startIndex + scansPerPage;
+
+  // Tableau de scans à afficher sur la page actuelle
+  const currentScans = scans.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    // Réinitialiser la page courante lorsque scans est modifié
+    setCurrentPage(1);
+  }, [scans]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  };
 
   return (
     <div className="Accueil">
       <h2> Dernières sorties </h2>
+      <button className="ScrollToTopButton" onClick={handleScrollToTop}>
+        Revenir en haut
+      </button>
       <ul>
-        {scans.map((scan) => (
+        {currentScans.map((scan, index) => (
           <li key={scan.scan}>
             <Card
               scan={scan.scan}
               title={scan.title}
               pages={scan.pages}
-              isNew={scan.scan === latestChapter.scan} // Vérifier si le scan est le plus récent
+              isNew={currentPage === 1 && index === 0} // Vérifier si le scan est le premier de la première page
             />
           </li>
         ))}
       </ul>
+      <div className="Pagination">
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+          <button
+            key={pageNumber}
+            className={pageNumber === currentPage ? "active" : ""}
+            onClick={() => handlePageChange(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
