@@ -16,50 +16,47 @@ function Scan() {
   const [fullscreen, setFullscreen] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5); // Valeur initiale du volume (0.5 = 50%)
-  
 
   const audioRef = useRef(null);
 
+  useEffect(() => {
+    const preloadImage = (url) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+    };
 
-
-    useEffect(() => {
-      const preloadImage = (url) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = url;
-          img.onload = resolve;
-          img.onerror = reject;
+    const preloadScanImages = async () => {
+      const scanImages = scans
+        .filter((s) => s.scan === scanParam) // Filtrer les scans pour obtenir celui en cours
+        .flatMap((scan) => {
+          const totalPages = scan.maxpages;
+          return Array.from(
+            { length: totalPages },
+            (_, index) =>
+              `${scan.pages}${String(index + 1).padStart(2, "0")}.png`
+          );
         });
-      };
-    
-      const preloadScanImages = async () => {
-        const scanImages = scans
-          .filter((s) => s.scan === scanParam) // Filtrer les scans pour obtenir celui en cours
-          .flatMap((scan) => {
-            const totalPages = scan.maxpages;
-            return Array.from(
-              { length: totalPages },
-              (_, index) => `${scan.pages}${String(index + 1).padStart(2, "0")}.png`
-            );
-          });
-    
-        const preloadedImages = [];
-    
-        for (const imageUrl of scanImages) {
-          try {
-            await preloadImage(imageUrl);
-            preloadedImages.push(imageUrl);
-          } catch (error) {
-            console.error(`Failed to preload image: ${imageUrl}`);
-          }
+
+      const preloadedImages = [];
+
+      for (const imageUrl of scanImages) {
+        try {
+          await preloadImage(imageUrl);
+          preloadedImages.push(imageUrl);
+        } catch (error) {
+          console.error(`Failed to preload image: ${imageUrl}`);
         }
-    
-        console.log("Scan images preloaded:", preloadedImages);
-      };
-    
-      preloadScanImages();
-    }, [scanParam]);
-    
+      }
+
+      console.log("Scan images preloaded:", preloadedImages);
+    };
+
+    preloadScanImages();
+  }, [scanParam]);
 
   const handleMusicButtonClick = () => {
     if (isMusicPlaying) {
@@ -223,12 +220,11 @@ function Scan() {
           </button>
           <button className="Scan-full" onClick={handleFullScreen}>
             <i className="fa-solid fa-expand"></i>
-          </button>         
+          </button>
           <button className="Scan-music" onClick={handleMusicButtonClick}>
             <i className="fa-solid fa-music"></i>
           </button>
           <button className="Scan-volume" onClick={handleVolumeChange}>
-            
             {volume === 0 ? (
               <i className="fa-solid fa-volume-mute"></i>
             ) : (
