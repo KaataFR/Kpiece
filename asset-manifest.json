@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/Kpiece/static/css/main.bee1b65e.css",
+    "main.js": "/Kpiece/static/js/main.e58772d6.js",
+    "static/js/787.829dd800.chunk.js": "/Kpiece/static/js/787.829dd800.chunk.js",
+    "static/media/slide_header.jpg": "/Kpiece/static/media/slide_header.b2b929247aefe793b6ba.jpg",
+    "static/media/LOGO-KPIECE.png": "/Kpiece/static/media/LOGO-KPIECE.4820c767153467c4dde2.png",
+    "index.html": "/Kpiece/index.html",
+    "main.bee1b65e.css.map": "/Kpiece/static/css/main.bee1b65e.css.map",
+    "main.e58772d6.js.map": "/Kpiece/static/js/main.e58772d6.js.map",
+    "787.829dd800.chunk.js.map": "/Kpiece/static/js/787.829dd800.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bee1b65e.css",
+    "static/js/main.e58772d6.js"
+  ]
+}
