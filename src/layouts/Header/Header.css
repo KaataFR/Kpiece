@@ -124,6 +124,19 @@ header button {
       outline: none;
       background: none;
     }
+
+    header input {
+      background-color: transparent;
+      height: 30px;
+      font-size: 15px;
+
+    }
+
+    header button{
+      background-color: transparent;
+      font-size: 15px;
+
+    }
   }
 
 

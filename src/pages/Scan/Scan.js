@@ -17,7 +17,42 @@ function Scan() {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5); // Valeur initiale du volume (0.5 = 50%)
 
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    const handleTimeUpdate = () => {
+      setCurrentTime(audioRef.current.currentTime);
+    };
+
+    const handleLoadedMetadata = () => {
+      setDuration(audioRef.current.duration);
+      setCurrentTime(audioRef.current.currentTime);
+    };
+
+    if (audioRef.current) {
+      audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+      audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+        audioRef.current.removeEventListener(
+          "loadedmetadata",
+          handleLoadedMetadata
+        );
+      }
+    };
+  }, []);
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   useEffect(() => {
     const preloadImage = (url) => {
@@ -60,11 +95,11 @@ function Scan() {
 
   const handleMusicButtonClick = () => {
     if (isMusicPlaying) {
-      audioRef.current.pause(); // Mettre la musique en pause
+      audioRef.current.pause(); // Pause the music
     } else {
-      audioRef.current.play(); // Lire la musique
+      audioRef.current.play(); // Play the music
     }
-    setIsMusicPlaying((prevIsMusicPlaying) => !prevIsMusicPlaying); // Inverser l'état de la musique
+    setIsMusicPlaying((prevIsMusicPlaying) => !prevIsMusicPlaying); // Toggle the music playing state
   };
 
   const handleVolumeChange = (event) => {
@@ -198,8 +233,11 @@ function Scan() {
     };
   }, []);
 
+  /* Barre rouge en dessous du scan */
+
   return (
     <div className={`Scan ${fullscreen ? "fullscreen" : ""}`}>
+      
       <select className="Scan-select" onChange={handleSelectChange}>
         {scans.map((s) => (
           <option key={s.scan} value={s.scan}>
@@ -222,8 +260,13 @@ function Scan() {
             <i className="fa-solid fa-expand"></i>
           </button>
           <button className="Scan-music" onClick={handleMusicButtonClick}>
-            <i className="fa-solid fa-music"></i>
+            {isMusicPlaying ? (
+              <i className="fa-solid fa-stop"></i> // Stop icon
+            ) : (
+              <i className="fa-solid fa-play"></i> // Play icon
+            )}
           </button>
+
           <button className="Scan-volume" onClick={handleVolumeChange}>
             {volume === 0 ? (
               <i className="fa-solid fa-volume-mute"></i>
@@ -241,11 +284,32 @@ function Scan() {
             onChange={handleVolumeChange}
           />
 
+          <input
+            className="styled-range-input"
+            type="range"
+            min="0"
+            max={duration}
+            step="1"
+            value={currentTime}
+            onChange={(event) => {
+              audioRef.current.currentTime = event.target.value;
+            }}
+          />
+          <p className="Scan-current-time-music">{`${formatTime(
+            currentTime
+          )} / ${formatTime(duration)}`}</p>
+
           <audio ref={audioRef} src={ost} loop></audio>
         </div>
 
         {scan && imageUrl && (
           <div className="Scan-images">
+                  <div className="progress-bar">
+        <div
+          className="progress"
+          style={{ width: `${(imageIndex / totalPages) * 100}%` }}
+        ></div>
+      </div>
             <div className="Scan-image-container" ref={imageContainerRef}>
               <div
                 className={`Scan-image-overlay custom-left-side ${
@@ -268,6 +332,9 @@ function Scan() {
           </div>
         )}
       </div>
+
+
+
     </div>
   );
 }
