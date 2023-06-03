@@ -1,11 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./Accueil.css";
 import Card from "../../components/card/Card";
-import scans from "../../assets/data/scans.json";
+// Supprimer l'importation des données de scans locales
+// import scans from "../../assets/data/scans.json";
 
 function Accueil() {
   const [currentPage, setCurrentPage] = useState(1);
   const scansPerPage = 8; // Nombre de scans à afficher par page
+  // Utiliser un état local pour stocker les données de scans
+  const [scans, setScans] = useState([]);
+
+ // Ajouter un effet pour récupérer les données de scans à partir du compartiment S3
+ useEffect(() => {
+  const fetchScans = async () => {
+    try {
+      const response = await fetch(
+        "https://kpiece.s3.eu-west-3.amazonaws.com/scans.json"
+      );
+      if (response.ok) {
+        const scans = await response.json();
+        setScans(scans); // Mettre à jour l'état local avec les données de scans
+      } else {
+        console.error("Failed to fetch scans:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Failed to fetch scans:", error);
+    }
+  };
+
+  fetchScans();
+}, []);
+
 
   // Calcul du nombre total de pages
   const totalPages = Math.ceil(scans.length / scansPerPage);
@@ -14,6 +39,7 @@ function Accueil() {
   const startIndex = (currentPage - 1) * scansPerPage;
   const endIndex = startIndex + scansPerPage;
 
+  // Tableau de scans à afficher sur la page actuelle
   // Tableau de scans à afficher sur la page actuelle
   const currentScans = scans.slice(startIndex, endIndex);
 

@@ -1,11 +1,35 @@
-import React from "react";
-import scansData from "../../assets/data/scans.json";
+import React, { useState, useEffect } from "react";
+// Supprimer l'importation des données de scans locales
+// import scansData from "../../assets/data/scans.json";
 import Card from "../../components/card/Card";
 import { useParams } from "react-router-dom";
 import './Recherche.css';
 
 function Recherche() {
   const { searchTerm } = useParams();
+  // Utiliser un état local pour stocker les données de scans
+  const [scansData, setScansData] = useState([]);
+
+  // Ajouter un effet pour récupérer les données de scans à partir du compartiment S3
+  useEffect(() => {
+    const fetchScans = async () => {
+      try {
+        const response = await fetch(
+          "https://kpiece.s3.eu-west-3.amazonaws.com/scans.json"
+        );
+        if (response.ok) {
+          const scansData = await response.json();
+          setScansData(scansData); // Mettre à jour l'état local avec les données de scans
+        } else {
+          console.error("Failed to fetch scans:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Failed to fetch scans:", error);
+      }
+    };
+
+    fetchScans();
+  }, []);
 
   // Convertir le terme de recherche en minuscules (ou en majuscules) pour une recherche insensible à la casse
   const searchTermLowerCase = searchTerm.toLowerCase();
@@ -34,6 +58,5 @@ function Recherche() {
     </div>
   );
 }
-
 
 export default Recherche;
