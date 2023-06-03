@@ -46,8 +46,7 @@ function Scan() {
     fetchScans();
   }, []);
 
-// ...
-
+  // ...
 
   useEffect(() => {
     const handleTimeUpdate = () => {
@@ -118,7 +117,7 @@ function Scan() {
     };
 
     preloadScanImages();
-  }, [scanParam]);
+  }, [scanParam, scans]); // Add scans as a dependency
 
   const handleMusicButtonClick = () => {
     if (isMusicPlaying) {

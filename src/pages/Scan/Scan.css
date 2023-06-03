@@ -30,6 +30,8 @@
   height: 100%;
   /* Ajout de la propriété height */
   position: relative;
+  preload: true; /* Ajout de la propriété preload */
+
 }
 
 
@@ -171,7 +173,6 @@ input.styled-range-input[type="range"]::-moz-range-thumb {
   background-color: red;
   transition: all 400ms ease-in-out;
 }
-
 
 
 @media screen and (max-width: 800px) {
