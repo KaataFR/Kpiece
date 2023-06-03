@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Scan.css";
-import scans from "./../../assets/data/scans.json";
+// Supprimer l'importation des données de scans locales
+// import scans from "./../../assets/data/scans.json";
 import ost from "./../../assets/mp3/ost.mp3";
 
 function Scan() {
   const navigate = useNavigate();
   const { scan: scanParam } = useParams();
+  // Utiliser un état local pour stocker les données de scans
+  const [scans, setScans] = useState([]);
   const scan = scans.find((s) => s.scan === scanParam);
   const totalPages = scan ? scan.maxpages : 0;
   const imageContainerRef = useRef(null);
@@ -21,6 +24,30 @@ function Scan() {
   const [duration, setDuration] = useState(0);
 
   const audioRef = useRef(null);
+
+  // Ajouter un effet pour récupérer les données de scans à partir du compartiment S3
+  useEffect(() => {
+    const fetchScans = async () => {
+      try {
+        const response = await fetch(
+          "https://kpiece.s3.eu-west-3.amazonaws.com/scans.json"
+        );
+        if (response.ok) {
+          const scans = await response.json();
+          setScans(scans); // Mettre à jour l'état local avec les données de scans
+        } else {
+          console.error("Failed to fetch scans:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Failed to fetch scans:", error);
+      }
+    };
+
+    fetchScans();
+  }, []);
+
+// ...
+
 
   useEffect(() => {
     const handleTimeUpdate = () => {
