@@ -19,6 +19,9 @@ function Scan() {
   const [fullscreen, setFullscreen] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5); // Valeur initiale du volume (0.5 = 50%)
+  const [isVerticalView, setIsVerticalView] = useState(false);
+
+  const [progressWidth, setProgressWidth] = useState(0);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -46,6 +49,9 @@ function Scan() {
     fetchScans();
   }, []);
 
+  const handleUpDownButtonClick = () => {
+    setIsVerticalView((prevIsVerticalView) => !prevIsVerticalView);
+  };
   // ...
 
   useEffect(() => {
@@ -153,6 +159,30 @@ function Scan() {
       setImageIndex(1);
     }
   }, [scan]);
+
+  useEffect(() => {
+    if (isVerticalView) {
+      // Calculer la hauteur totale du contenu défilable
+      const scrollHeight = document.body.scrollHeight - window.innerHeight;
+
+      // Créer une fonction pour gérer l'événement de défilement
+      const handleScroll = () => {
+        // Calculer la position de défilement actuelle en pourcentage
+        const scrollPosition = window.scrollY / scrollHeight;
+
+        // Mettre à jour la largeur de la barre de progression
+        setProgressWidth(scrollPosition * 100);
+      };
+
+      // Ajouter un écouteur d'événements pour l'événement de défilement
+      window.addEventListener("scroll", handleScroll);
+
+      // Supprimer l'écouteur d'événements lorsque le composant est démonté
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [isVerticalView]);
 
   const handleSelectChange = (event) => {
     const selectedScan = event.target.value;
@@ -322,35 +352,75 @@ function Scan() {
             currentTime
           )} / ${formatTime(duration)}`}</p>
 
+          <button className="Scan-updown" onClick={handleUpDownButtonClick}>
+            {isVerticalView ? (
+              <i className="fa-solid fa-arrows-left-right"></i> // Icône "left-right"
+            ) : (
+              <i className="fa-solid fa-arrows-up-down"></i> // Icône "updown"
+            )}
+          </button>
           <audio ref={audioRef} src={ost} loop></audio>
         </div>
 
         {scan && imageUrl && (
           <div className="Scan-images">
             <div className="progress-bar">
-              <div
-                className="progress"
-                style={{ width: `${(imageIndex / totalPages) * 100}%` }}
-              ></div>
+              {isVerticalView ? (
+                // Afficher la barre de progression de défilement
+                <div
+                  className="progress"
+                  style={{ width: `${progressWidth}%` }}
+                ></div>
+              ) : (
+                // Afficher la barre de progression par défaut
+                <div
+                  className="progress"
+                  style={{ width: `${(imageIndex / totalPages) * 100}%` }}
+                ></div>
+              )}
             </div>
-            <div className="Scan-image-container" ref={imageContainerRef}>
+            <div
+              className={`Scan-image-container ${
+                isVerticalView ? "vertical-view" : ""
+              }`}
+              ref={imageContainerRef}
+            >
               <div
                 className={`Scan-image-overlay custom-left-side ${
-                  imageIndex === 1 ? "inactive" : ""
+                  imageIndex === 1 || isVerticalView ? "inactive" : ""
                 }`}
                 onClick={handlePreviousPage}
               ></div>
               <div
                 className={`Scan-image-overlay custom-right-side ${
-                  imageIndex === totalPages ? "inactive" : ""
+                  imageIndex === totalPages || isVerticalView ? "inactive" : ""
                 }`}
                 onClick={handleNextPage}
               ></div>
-              <img
-                className="Scan-image"
-                src={imageUrl}
-                alt={`Page ${imageIndex}`}
-              />
+
+              {isVerticalView ? (
+                // Afficher toutes les images en verticale
+                Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                  (pageIndex) => (
+                    <img
+                      key={pageIndex}
+                      className="Scan-image"
+                      src={`${scan.pages}${String(pageIndex).padStart(
+                        2,
+                        "0"
+                      )}.png`}
+                      alt={`Page ${pageIndex}`}
+                    />
+                  )
+                )
+              ) : (
+                // Afficher l'image actuelle
+                <img
+                  className="Scan-image"
+                  src={imageUrl}
+                  alt={`Page ${imageIndex}`}
+                />
+              )}
             </div>
           </div>
         )}
