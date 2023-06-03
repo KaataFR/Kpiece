@@ -233,11 +233,8 @@ function Scan() {
     };
   }, []);
 
-  /* Barre rouge en dessous du scan */
-
   return (
     <div className={`Scan ${fullscreen ? "fullscreen" : ""}`}>
-      
       <select className="Scan-select" onChange={handleSelectChange}>
         {scans.map((s) => (
           <option key={s.scan} value={s.scan}>
@@ -304,12 +301,12 @@ function Scan() {
 
         {scan && imageUrl && (
           <div className="Scan-images">
-                  <div className="progress-bar">
-        <div
-          className="progress"
-          style={{ width: `${(imageIndex / totalPages) * 100}%` }}
-        ></div>
-      </div>
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{ width: `${(imageIndex / totalPages) * 100}%` }}
+              ></div>
+            </div>
             <div className="Scan-image-container" ref={imageContainerRef}>
               <div
                 className={`Scan-image-overlay custom-left-side ${
@@ -332,9 +329,6 @@ function Scan() {
           </div>
         )}
       </div>
-
-
-
     </div>
   );
 }
