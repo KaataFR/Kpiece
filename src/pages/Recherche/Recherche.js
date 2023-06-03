@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-// Supprimer l'importation des données de scans locales
-// import scansData from "../../assets/data/scans.json";
 import Card from "../../components/card/Card";
 import { useParams } from "react-router-dom";
 import './Recherche.css';
 
 function Recherche() {
   const { searchTerm } = useParams();
-  // Utiliser un état local pour stocker les données de scans
   const [scansData, setScansData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const scansPerPage = 8; // Nombre de scans à afficher par page
 
-  // Ajouter un effet pour récupérer les données de scans à partir du compartiment S3
   useEffect(() => {
     const fetchScans = async () => {
       try {
@@ -19,7 +17,8 @@ function Recherche() {
         );
         if (response.ok) {
           const scansData = await response.json();
-          setScansData(scansData); // Mettre à jour l'état local avec les données de scans
+          setCurrentPage(1); // Réinitialiser la page courante à 1
+          setScansData(scansData);
         } else {
           console.error("Failed to fetch scans:", response.statusText);
         }
@@ -27,25 +26,39 @@ function Recherche() {
         console.error("Failed to fetch scans:", error);
       }
     };
-
+  
     fetchScans();
   }, []);
+  
 
-  // Convertir le terme de recherche en minuscules (ou en majuscules) pour une recherche insensible à la casse
   const searchTermLowerCase = searchTerm.toLowerCase();
 
-  // Effectuer la recherche en filtrant les scans correspondant au terme de recherche et à l'arc (insensible à la casse)
   const searchResults = scansData.filter((scan) =>
     scan.scan.toLowerCase().includes(searchTermLowerCase) ||
     scan.arc.toLowerCase().includes(searchTermLowerCase)
   );
 
+  // Calcul du nombre total de pages
+  const totalPages = Math.ceil(searchResults.length / scansPerPage);
+
+  // Index de début et de fin des scans à afficher sur la page actuelle
+  const startIndex = (currentPage - 1) * scansPerPage;
+  const endIndex = startIndex + scansPerPage;
+
+  // Tableau de scans à afficher sur la page actuelle
+  const currentScans = searchResults.slice(startIndex, endIndex);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  };
+
   return (
     <div className="search-wrap">
-      <h1>Résultats de recherche pour <span className="search-number"> "{searchTerm}"  </span> </h1>
+      <h1>Résultats de recherche pour <span className="search-number"> "{searchTerm}" </span> </h1>
 
       <ul className="card-list">
-        {searchResults.map((scan) => (
+        {currentScans.map((scan) => (
           <li key={scan.scan}>
             <Card
               scan={scan.scan}
@@ -55,6 +68,17 @@ function Recherche() {
           </li>
         ))}
       </ul>
+      <div className="Pagination">
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+          <button
+            key={pageNumber}
+            className={pageNumber === currentPage ? "active" : ""}
+            onClick={() => handlePageChange(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
