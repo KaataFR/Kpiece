@@ -1,6 +1,6 @@
 {
   "name": "scanonepiece",
-  "homepage": " https://kaatafr.github.io/Kpiece/",
+  "homepage": "https://github.com/KaataFR/Kpiece",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,10 +19,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "git push origin `git subtree split --prefix build main`:gh-pages",
-    "build": "react-scripts build"
-  },  
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "npm run build && gh-pages -d build"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -43,5 +43,10 @@
   },
   "devDependencies": {
     "gh-pages": "^5.0.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
