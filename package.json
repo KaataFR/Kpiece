@@ -20,7 +20,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "git push origin `git subtree split --prefix build main`:gh-pages",
     "build": "react-scripts build"
   },  
   "eslintConfig": {
