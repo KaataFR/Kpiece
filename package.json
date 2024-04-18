@@ -1,6 +1,6 @@
 {
   "name": "scanonepiece",
-  "homepage": "http://www.kpiece.site.s3-website.eu-west-3.amazonaws.com",
+  "homepage": " https://kaatafr.github.io/Kpiece/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,13 +19,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
     "predeploy": "npm run build",
-    "build": "react-scripts build",
-    "deploy": "aws s3 sync build/ s3://www.kpiece.site",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+    "deploy": "gh-pages -d build",
+    "build": "react-scripts build"
+  },  
   "eslintConfig": {
     "extends": [
       "react-app",
