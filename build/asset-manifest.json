@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/KaataFR/Kpiece/static/css/main.bae4763f.css",
-    "main.js": "/KaataFR/Kpiece/static/js/main.fbe4f710.js",
-    "static/js/787.63ea72dd.chunk.js": "/KaataFR/Kpiece/static/js/787.63ea72dd.chunk.js",
-    "static/media/ost.mp3": "/KaataFR/Kpiece/static/media/ost.f5606b555ebfc28ef30d.mp3",
-    "static/media/slide_header.jpg": "/KaataFR/Kpiece/static/media/slide_header.b2b929247aefe793b6ba.jpg",
-    "static/media/LOGO-KPIECE.png": "/KaataFR/Kpiece/static/media/LOGO-KPIECE.4820c767153467c4dde2.png",
-    "index.html": "/KaataFR/Kpiece/index.html",
-    "main.bae4763f.css.map": "/KaataFR/Kpiece/static/css/main.bae4763f.css.map",
-    "main.fbe4f710.js.map": "/KaataFR/Kpiece/static/js/main.fbe4f710.js.map",
-    "787.63ea72dd.chunk.js.map": "/KaataFR/Kpiece/static/js/787.63ea72dd.chunk.js.map"
+    "main.css": "/Kpiece/static/css/main.1570b1ca.css",
+    "main.js": "/Kpiece/static/js/main.2591a5f7.js",
+    "static/js/787.63ea72dd.chunk.js": "/Kpiece/static/js/787.63ea72dd.chunk.js",
+    "static/media/ost.mp3": "/Kpiece/static/media/ost.f5606b555ebfc28ef30d.mp3",
+    "static/media/slide_header.jpg": "/Kpiece/static/media/slide_header.b2b929247aefe793b6ba.jpg",
+    "static/media/LOGO-KPIECE.png": "/Kpiece/static/media/LOGO-KPIECE.4820c767153467c4dde2.png",
+    "index.html": "/Kpiece/index.html",
+    "main.1570b1ca.css.map": "/Kpiece/static/css/main.1570b1ca.css.map",
+    "main.2591a5f7.js.map": "/Kpiece/static/js/main.2591a5f7.js.map",
+    "787.63ea72dd.chunk.js.map": "/Kpiece/static/js/787.63ea72dd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bae4763f.css",
-    "static/js/main.fbe4f710.js"
+    "static/css/main.1570b1ca.css",
+    "static/js/main.2591a5f7.js"
   ]
 }
