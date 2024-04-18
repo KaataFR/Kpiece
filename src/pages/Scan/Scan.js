@@ -93,12 +93,12 @@ function Scan() {
         img.src = url;
         img.onload = resolve;
         img.onerror = reject;
-      });
+      }); 
     };
 
     const preloadScanImages = async () => {
       const scanImages = scans
-        .filter((s) => s.scan === scanParam) // Filtrer les scans pour obtenir celui en cours
+        .filter((s) => s.scan === scanParam) // Filtrer les scans pour obtenir celui en cours via l'URL
         .flatMap((scan) => {
           const totalPages = scan.maxpages;
           return Array.from(
@@ -312,6 +312,13 @@ function Scan() {
           <button className="Scan-full" onClick={handleFullScreen}>
             <i className="fa-solid fa-expand"></i>
           </button>
+                    <button className="Scan-updown" onClick={handleUpDownButtonClick}>
+            {isVerticalView ? (
+              <i className="fa-solid fa-arrows-left-right"></i> // Icône "left-right"
+            ) : (
+              <i className="fa-solid fa-arrows-up-down"></i> // Icône "updown"
+            )}
+          </button>
           <button className="Scan-music" onClick={handleMusicButtonClick}>
             {isMusicPlaying ? (
               <i className="fa-solid fa-stop"></i> // Stop icon
@@ -352,13 +359,7 @@ function Scan() {
             currentTime
           )} / ${formatTime(duration)}`}</p>
 
-          <button className="Scan-updown" onClick={handleUpDownButtonClick}>
-            {isVerticalView ? (
-              <i className="fa-solid fa-arrows-left-right"></i> // Icône "left-right"
-            ) : (
-              <i className="fa-solid fa-arrows-up-down"></i> // Icône "updown"
-            )}
-          </button>
+
           <audio ref={audioRef} src={ost} loop></audio>
         </div>
 
